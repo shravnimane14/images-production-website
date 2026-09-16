@@ -11,18 +11,20 @@ import {
   type Project,
 } from "@/lib/site-data";
 
-type CategoryRow = { id: string; name: string; slug: string; description: string; cover_image: string; display_order: number; published: boolean };
-type ProjectRow = { id: string; category_id: string; project_name: string; slug: string; description: string; cover_image: string; event_date: string; location: string; featured: boolean; published: boolean; display_order: number };
+type CategoryRow = { id: string; name: string; slug: string; description: string; cover_image: string | null; display_order: number; published: boolean };
+type ProjectRow = { id: string; category_id: string; project_name: string; slug: string; description: string; cover_image: string | null; event_date: string; location: string; featured: boolean; published: boolean; display_order: number };
 type MediaRow = { id: string; file_url: string; thumbnail_url: string | null; media_type: "photo" | "video"; title: string; description: string; category_id: string; project_id: string; tags: string[]; location: string; date: string; featured: boolean; published: boolean; display_order: number };
 
 const configured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY);
 
 function mapCategory(row: CategoryRow): Category {
-  return { id: row.id, name: row.name, slug: row.slug, description: row.description, coverImage: row.cover_image, displayOrder: row.display_order, published: row.published };
+  const fallback = getFallbackCategoryBySlug(row.slug)?.coverImage ?? fallbackCategories[0].coverImage;
+  return { id: row.id, name: row.name, slug: row.slug, description: row.description, coverImage: row.cover_image ?? fallback, displayOrder: row.display_order, published: row.published };
 }
 
 function mapProject(row: ProjectRow): Project {
-  return { id: row.id, categoryId: row.category_id, projectName: row.project_name, slug: row.slug, description: row.description, coverImage: row.cover_image, eventDate: row.event_date, location: row.location, featured: row.featured, published: row.published, displayOrder: row.display_order };
+  const fallback = fallbackProjects.find((project) => project.slug === row.slug)?.coverImage ?? fallbackCategories[0].coverImage;
+  return { id: row.id, categoryId: row.category_id, projectName: row.project_name, slug: row.slug, description: row.description, coverImage: row.cover_image ?? fallback, eventDate: row.event_date, location: row.location, featured: row.featured, published: row.published, displayOrder: row.display_order };
 }
 
 function mapMedia(row: MediaRow): MediaItem {
