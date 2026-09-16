@@ -42,6 +42,9 @@ export async function getPublicPortfolio() {
       supabase.from("media").select("*").eq("published", true).order("display_order"),
     ]);
     if (categoryError || projectError || mediaError) throw categoryError ?? projectError ?? mediaError;
+    if (!categoryRows?.length || !projectRows?.length || !mediaRows?.length) {
+      return { categories: fallbackCategories, projects: fallbackProjects, media: fallbackMedia };
+    }
     return { categories: (categoryRows as CategoryRow[]).map(mapCategory), projects: (projectRows as ProjectRow[]).map(mapProject), media: (mediaRows as MediaRow[]).map(mapMedia) };
   } catch {
     return { categories: fallbackCategories, projects: fallbackProjects, media: fallbackMedia };

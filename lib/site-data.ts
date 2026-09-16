@@ -46,6 +46,8 @@ export type Service = {
   description: string;
 };
 
+const videoAsset = (name: string) => `https://media.githubusercontent.com/media/shravnimane14/images-production-website/main/public/images/${encodeURIComponent(name)}`;
+
 export const categories: Category[] = [
   {
     id: "wedding",
@@ -83,7 +85,7 @@ export const categories: Category[] = [
     slug: "events",
     description:
       "Live celebrations captured with energy, precision, and emotional depth.",
-    coverImage: "/images/Event Highlights.mp4",
+    coverImage: videoAsset("Event Highlights.mp4"),
     displayOrder: 4,
     published: true,
   },
@@ -93,7 +95,7 @@ export const categories: Category[] = [
     slug: "reels",
     description:
       "Fast-moving social-first visual stories built for attention and impact.",
-    coverImage: "/images/Cinematic 1.mp4",
+    coverImage: videoAsset("Cinematic 1.mp4"),
     displayOrder: 5,
     published: true,
   },
@@ -103,7 +105,7 @@ export const categories: Category[] = [
     slug: "cinematography",
     description:
       "High-end motion work shaped with editorial rhythm and dramatic storytelling.",
-    coverImage: "/images/Cinematic 2.mp4",
+    coverImage: videoAsset("Cinematic 2.mp4"),
     displayOrder: 6,
     published: true,
   },
@@ -113,7 +115,7 @@ export const categories: Category[] = [
     slug: "video-editing",
     description:
       "Polished edits blending emotion, pacing, and refined visual craftsmanship.",
-    coverImage: "/images/Commercial Films.mp4",
+    coverImage: videoAsset("Commercial Films.mp4"),
     displayOrder: 7,
     published: true,
   },
@@ -175,7 +177,7 @@ export const projects: Project[] = [
     projectName: "Festival Night Highlights",
     slug: "festival-night-highlights",
     description: "A lively event production capturing the energy, color, and emotional rhythm of the evening.",
-    coverImage: "/images/Event Highlights.mp4",
+    coverImage: videoAsset("Event Highlights.mp4"),
     eventDate: "2024-09-02",
     location: "Mumbai",
     featured: true,
@@ -360,7 +362,7 @@ export const mediaItems: MediaItem[] = [
   },
   {
     id: "m-011",
-    fileUrl: "/images/Cinematic 1.mp4",
+    fileUrl: videoAsset("Cinematic 1.mp4"),
     thumbnailUrl: "/images/Cinematic photo 3.JPG",
     mediaType: "video",
     title: "Cinematic Film Sequence",
@@ -376,7 +378,7 @@ export const mediaItems: MediaItem[] = [
   },
   {
     id: "m-012",
-    fileUrl: "/images/pre wedding.mp4",
+    fileUrl: videoAsset("pre wedding.mp4"),
     thumbnailUrl: "/images/pre wedding 7.jpg",
     mediaType: "video",
     title: "Pre-Wedding Film",
@@ -392,7 +394,7 @@ export const mediaItems: MediaItem[] = [
   },
   {
     id: "m-013",
-    fileUrl: "/images/Event Highlights.mp4",
+    fileUrl: videoAsset("Event Highlights.mp4"),
     thumbnailUrl: "/images/Cinematic photo 4.JPG",
     mediaType: "video",
     title: "Event Highlights Reel",
@@ -408,7 +410,7 @@ export const mediaItems: MediaItem[] = [
   },
   {
     id: "m-014",
-    fileUrl: "/images/Commercial Films.mp4",
+    fileUrl: videoAsset("Commercial Films.mp4"),
     thumbnailUrl: "/images/Cinematic photo 5.JPG",
     mediaType: "video",
     title: "Commercial Campaign Film",
