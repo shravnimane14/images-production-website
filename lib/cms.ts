@@ -16,19 +16,24 @@ type ProjectRow = { id: string; category_id: string; project_name: string; slug:
 type MediaRow = { id: string; file_url: string; thumbnail_url: string | null; media_type: "photo" | "video"; title: string; description: string; category_id: string; project_id: string; tags: string[]; location: string; date: string; featured: boolean; published: boolean; display_order: number };
 
 const configured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY);
+const deployedVideoUrl = (value: string) => {
+  if (!value.startsWith("/images/") || !value.toLowerCase().endsWith(".mp4")) return value;
+  const filename = value.slice("/images/".length);
+  return `https://media.githubusercontent.com/media/shravnimane14/images-production-website/main/public/images/${encodeURIComponent(filename)}`;
+};
 
 function mapCategory(row: CategoryRow): Category {
   const fallback = getFallbackCategoryBySlug(row.slug)?.coverImage ?? fallbackCategories[0].coverImage;
-  return { id: row.id, name: row.name, slug: row.slug, description: row.description, coverImage: row.cover_image ?? fallback, displayOrder: row.display_order, published: row.published };
+  return { id: row.id, name: row.name, slug: row.slug, description: row.description, coverImage: deployedVideoUrl(row.cover_image ?? fallback), displayOrder: row.display_order, published: row.published };
 }
 
 function mapProject(row: ProjectRow): Project {
   const fallback = fallbackProjects.find((project) => project.slug === row.slug)?.coverImage ?? fallbackCategories[0].coverImage;
-  return { id: row.id, categoryId: row.category_id, projectName: row.project_name, slug: row.slug, description: row.description, coverImage: row.cover_image ?? fallback, eventDate: row.event_date, location: row.location, featured: row.featured, published: row.published, displayOrder: row.display_order };
+  return { id: row.id, categoryId: row.category_id, projectName: row.project_name, slug: row.slug, description: row.description, coverImage: deployedVideoUrl(row.cover_image ?? fallback), eventDate: row.event_date, location: row.location, featured: row.featured, published: row.published, displayOrder: row.display_order };
 }
 
 function mapMedia(row: MediaRow): MediaItem {
-  return { id: row.id, fileUrl: row.file_url, thumbnailUrl: row.thumbnail_url ?? undefined, mediaType: row.media_type, title: row.title, description: row.description, categoryId: row.category_id, projectId: row.project_id, tags: row.tags ?? [], location: row.location, date: row.date, featured: row.featured, published: row.published, displayOrder: row.display_order };
+  return { id: row.id, fileUrl: deployedVideoUrl(row.file_url), thumbnailUrl: row.thumbnail_url ?? undefined, mediaType: row.media_type, title: row.title, description: row.description, categoryId: row.category_id, projectId: row.project_id, tags: row.tags ?? [], location: row.location, date: row.date, featured: row.featured, published: row.published, displayOrder: row.display_order };
 }
 
 export async function getPublicPortfolio() {
